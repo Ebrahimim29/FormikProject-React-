@@ -1,37 +1,50 @@
 import { useFormik } from "formik";
+import * as Yup from 'yup' ;
+
+const initialValues = {
+  name:'',
+  email:'',
+  password:''
+}
+
+const onSubmit = values => {
+  console.log(values);
+  
+}
+
+// const validate = values => {
+//   let errors = {}
+//   if (!values.name) {
+//     errors.name = "Please Fill Box"
+//   }
+//   if (!values.email) {
+//     errors.email = "Please Fill Box"
+//   }else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(values.email)){
+//     errors.email = "Please Fill Box : aaa@gmail.com"
+//   }
+//   if (!values.password) {
+//     errors.password = "Please Fill Box"
+//   }
+//   return errors;
+// }
+
+const validationSchema = Yup.object({
+  name: Yup.string().required('Please Fill Box'),
+  email: Yup.string().required('Please Fill Box').email('example:aaa@gmail.com'),
+  password: Yup.string().required('Please Fill Box').min(6,'Min 6 Character')
+})
+
 
 const RegisterForm = () => {
 
     const formik = useFormik({
-        initialValues:{
-            name:'Mohammad',
-            email:'',
-            password:''
-        },
-        onSubmit: values => {
-            console.log(values);            
-        },
-        validate: values => {
-          let errors = {}
-          if(!values.name){
-            errors.name = "لطفا این قسمت را پر کنید"
-          }
-          if(!values.email){
-            errors.email = "لطفا این قسمت را پر کنید"
-          }else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(values.email)){
-            errors.email = "لطفا قالب ایمیل را درست وارد کنید: مثل www@gmail.com"
-          }
-          if(!values.password){
-            errors.password = "لطفا این قسمت را پر کنید"
-          }else if(!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(values.password)){
-            errors.password = "لطفا پسورد شامل حروف و عدد و علامت باشد"
-          }
-          return errors;
-        }
+        initialValues,
+        onSubmit,
+        // validate,
+        validationSchema
     })
 
-    console.log(formik);
-    
+    // console.log(formik);
     // console.log(formik.values);
     
 
@@ -47,8 +60,11 @@ const RegisterForm = () => {
               <label htmlFor="name" className="block mb-1 text-gray-700 text-sm font-medium">نام</label>
               <input type="text" className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                id="name" name="name" value={formik.values.name} 
-                onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                id="name" name="name" 
+
+                // value={formik.values.name} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                {...formik.getFieldProps('name')}/>
+
                 {formik.errors.name  && formik.touched.name ? 
                 <small className="block text-center text-red-600">
                   {formik.errors.name}
@@ -58,8 +74,12 @@ const RegisterForm = () => {
                 <label htmlFor="email" className="block mb-1 text-gray-800 text-sm font-medium">ایمیل</label>
                 <input type="email" className="w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-3 focus:ring-red-500 focus:border-red-600" 
-                id="email" name="email" value={formik.values.email} 
-                onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                id="email" name="email" 
+
+                // value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                {...formik.getFieldProps('email')}/>
+
+
                 {formik.errors.email && formik.touched.email ? 
                 <small className="block text-center text-red-600">
                   {formik.errors.email}
@@ -69,8 +89,11 @@ const RegisterForm = () => {
                 <label htmlFor="email" className="block mb-1 text-gray-900 text-sm font-medium">رمز عبور</label>
                 <input type="password" className="w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-3 focus:ring-green-500 focus:border-green-600" 
-                id="password" name="password" value={formik.values.password} 
-                onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                id="password" name="password" 
+
+                // value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+                {...formik.getFieldProps('password')}/>
+
                 {formik.errors.password  && formik.touched.password ? 
                 <small className="block text-center text-red-600">
                   {formik.errors.password}
