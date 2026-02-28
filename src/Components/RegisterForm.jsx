@@ -1,11 +1,14 @@
 // import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
 import { ErrorMessage, FastField, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import PersonalField from "./PersonalField";
+import PersonalError from "./PersonalError";
 
 const initialValues = {
   name: "",
   email: "",
   password: "",
+  bio:""
 };
 
 const onSubmit = (values) => {
@@ -63,17 +66,14 @@ const RegisterForm = () => {
               <div className="mb-3">
                 <label
                   htmlFor="name"
-                  className="block mb-1 text-gray-700 text-sm font-medium"
-                >
+                  className="block mb-1 text-gray-700 text-sm font-medium">
                   نام
                 </label>
                 {/* <input */}
                 <FastField
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                  type="text" className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  id="name"
-                  name="name"
+                  id="name" name="name" placeholder="Please fill name:"                  
                   // value={formik.values.name} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                   // {...formik.getFieldProps("name")}
                 />
@@ -83,58 +83,46 @@ const RegisterForm = () => {
                     {formik.errors.name}
                   </small>
                 ) : null} */}
-                <ErrorMessage name='name'/>
+                <ErrorMessage name='name'
+                component={PersonalError}
+                />
               </div>
               <div className="mb-3">
-                <label
-                  htmlFor="email"
-                  className="block mb-1 text-gray-800 text-sm font-medium"
-                >
+                <label htmlFor="email" className="block mb-1 text-gray-800 text-sm font-medium">
                   ایمیل
                 </label>
                 <FastField
-                  type="email"
-                  className="w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm 
+                  type="email" className="w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm 
                 focus:outline-none focus:ring-3 focus:ring-red-500 focus:border-red-600"
-                  id="email"
-                  name="email"
-                  // value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                  // {...formik.getFieldProps("email")}
-                />
-
-                {/* {formik.errors.email && formik.touched.email ? ( */}
-                {/* //   <small className="block text-center text-red-600">
-                //     {formik.errors.email}
-                //   </small>
-                // ) : null} */}
-                <ErrorMessage name='email'/>
+                  id="email" name="email"/>
+                <ErrorMessage name='email'>
+                  {error => <small className="block text-center text-amber-500">{error}</small>}
+                </ErrorMessage>
               </div>
               <div className="mb-3">
                 <label
                   htmlFor="email"
-                  className="block mb-1 text-gray-900 text-sm font-medium"
-                >
-                  رمز عبور
+                  className="block mb-1 text-gray-900 text-sm font-medium">رمز عبور</label>
+                
+                <FastField name="password">
+                  {props => <PersonalField {...props}/>}
+                </FastField>
+
+              </div>
+              <div className="mb-3">
+                <label
+                  htmlFor="bio"
+                  className="block mb-1 text-gray-900 text-sm font-medium">
+                  بیوگرافی
                 </label>
                 <FastField
-                  type="password"
-                  className="w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm 
-                focus:outline-none focus:ring-3 focus:ring-green-500 focus:border-green-600"
-                  id="password"
-                  name="password"
-                  // value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-                  // {...formik.getFieldProps("password")}
-                />
-
-                {/* {formik.errors.password && formik.touched.password ? (
-                  <small className="block text-center text-red-600">
-                    {formik.errors.password}
-                  </small>
-                ) : null} */}
-                <ErrorMessage name='password'/>
+                  type="text" className="w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm 
+                focus:outline-none focus:ring-3 focus:ring-sky-500 focus:border-sky-600"
+                  id="bio" name="bio" component="textarea"/>
+                <ErrorMessage name='bio'/>
               </div>
-              <div className="text-center">
-                <button className="p-2 bg-pink-600 rounded-sm text-white">
+              <div className="text-center w-100">
+                <button type="submit" className="p-2 bg-pink-600 rounded-sm text-white">
                   ثبت نام
                 </button>
               </div>
